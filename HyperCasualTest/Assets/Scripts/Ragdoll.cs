@@ -4,15 +4,28 @@ using UnityEngine;
 
 public class Ragdoll : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Transform ragdollObject;
+    private List<Rigidbody> bones = new List<Rigidbody>();
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        StartActiveRagdoll();
+    }
+    public void ActivateRagdoll()
+    {
+        foreach (Rigidbody r in bones)
+        {
+            r.useGravity = true;
+            r.isKinematic = false;
+        }
+    }
+    public void StartActiveRagdoll()
+    {
+        foreach (Rigidbody r in ragdollObject.GetComponentsInChildren<Rigidbody>())
+        {
+            bones.Add(r);
+            r.useGravity = false;
+            r.isKinematic = true;
+        }
     }
 }
