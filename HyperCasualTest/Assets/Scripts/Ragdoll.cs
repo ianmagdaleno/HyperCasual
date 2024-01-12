@@ -19,6 +19,14 @@ public class Ragdoll : MonoBehaviour
             r.isKinematic = false;
         }
     }
+    public void UnactivateRagdoll()
+    {
+        foreach (Rigidbody r in bones)
+        {
+            r.useGravity = false;
+            r.isKinematic = true;
+        }
+    }
     public void StartActiveRagdoll()
     {
         foreach (Rigidbody r in ragdollObject.GetComponentsInChildren<Rigidbody>())

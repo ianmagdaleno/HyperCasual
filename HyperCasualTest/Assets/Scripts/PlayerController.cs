@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
 
     [Space(10),Header("Player Attributes")]
     [SerializeField] private float speed;
-    [SerializeField] private float rangeToAttack;
 
     private void FixedUpdate()
     {
@@ -37,13 +36,12 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-
         if(collision.gameObject.CompareTag("Enemy")) 
         {
-            //collision.gameObject.GetComponent<Animator>().enabled = false;
-            //collision.gameObject.GetComponent<Ragdoll>().ActivateRagdoll();
-            collision.gameObject.GetComponent<NPC>().TakeHit();
             animator.SetTrigger("isAttack");
+            collision.gameObject.GetComponent<NPC>().TakeHit();
+
+            //collision.gameObject.GetComponent<Rigidbody>().Ad
         }
     }
 }

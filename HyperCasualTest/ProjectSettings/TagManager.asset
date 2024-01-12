@@ -5,11 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - NpcBone
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Bones
   - Water
   - UI
   - 
