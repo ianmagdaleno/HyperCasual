@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class NPC : MonoBehaviour
 {
-    
-    public void TakeHit()
+    public void TakeHit(Vector3 direction)
     {
         GetComponent<Animator>().enabled = false;
-        GetComponent<Ragdoll>().ActivateRagdoll();
+        GetComponent<Ragdoll>().TakeHit(direction);
     }
 }

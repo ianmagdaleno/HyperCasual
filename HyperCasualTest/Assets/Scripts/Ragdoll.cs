@@ -11,12 +11,14 @@ public class Ragdoll : MonoBehaviour
     {
         StartActiveRagdoll();
     }
-    public void ActivateRagdoll()
+    public void TakeHit(Vector3 direction)
     {
         foreach (Rigidbody r in bones)
         {
             r.useGravity = true;
             r.isKinematic = false;
+
+            r.AddForce(direction * 5000);
         }
     }
     public void UnactivateRagdoll()

@@ -36,12 +36,15 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Enemy")) 
+        if (collision.gameObject.CompareTag("Enemy"))
         {
             animator.SetTrigger("isAttack");
-            collision.gameObject.GetComponent<NPC>().TakeHit();
 
-            //collision.gameObject.GetComponent<Rigidbody>().Ad
+            collision.gameObject.GetComponent<CapsuleCollider>().enabled = false;
+
+            Vector3 direction = transform.position - collision.transform.position;
+
+            collision.gameObject.GetComponent<NPC>().TakeHit(direction);
         }
     }
 }
