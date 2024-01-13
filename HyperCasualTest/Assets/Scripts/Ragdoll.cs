@@ -19,6 +19,8 @@ public class Ragdoll : MonoBehaviour
             r.isKinematic = false;
 
             r.AddForce(direction * 5000);
+
+            r.gameObject.layer = 6;
         }
     }
     public void UnactivateRagdoll()

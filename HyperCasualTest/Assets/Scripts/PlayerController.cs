@@ -9,13 +9,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private Animator animator;
 
-    [Space(10),Header("Player Attributes")]
+    [Space(10), Header("Player Attributes")]
     [SerializeField] private float speed;
+
+    private GameObject currentTarget;
 
     private void FixedUpdate()
     {
         Movement();
     }
+
     void Movement()
     {
         Vector2 moveDirection = joystickToMove.action.ReadValue<Vector2>();
@@ -38,13 +41,17 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
+            currentTarget = collision.gameObject;
             animator.SetTrigger("isAttack");
-
-            collision.gameObject.GetComponent<CapsuleCollider>().enabled = false;
-
-            Vector3 direction = transform.position - collision.transform.position;
-
-            collision.gameObject.GetComponent<NPC>().TakeHit(direction);
         }
+    }
+    public void AttackEffect()
+    {
+        currentTarget.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+        currentTarget.gameObject.GetComponent<Rigidbody>().useGravity = false;
+        currentTarget.gameObject.GetComponent<CapsuleCollider>().enabled = false;
+
+        Vector3 direction = transform.position - currentTarget.transform.position;
+        currentTarget.gameObject.GetComponent<NPC>().TakeHit(direction);
     }
 }

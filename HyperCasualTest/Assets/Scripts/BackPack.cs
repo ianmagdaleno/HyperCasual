@@ -4,42 +4,47 @@ using UnityEngine;
 
 public class BackPack : MonoBehaviour
 {
-    public Transform backPackTransform;
     public float inercia = 1f;
-
+    public Transform backPackTransform;
     private List<Ragdoll> npcs = new List<Ragdoll>();
 
-    private void Update()
-    {
-        //AnexarNPC();   
-        UpdatePositionNPCs();
-    }
-    //private void OnTriggerEnter(Collider other)
+    //private void OnCollisionEnter(Collision other)
     //{
-    //    if (other.CompareTag("Enemy"))
+    //    if (other.gameObject.layer == 6)
     //    {
     //        IndexNPC(other.gameObject);
     //    }
     //}
-    private void OnCollisionEnter(Collision other)
-    {
-        //Debug.Log(other.gameObject.name);
-        //if (other.gameObject.CompareTag("Enemy"))
-        //{
-        //    IndexNPC(other.gameObject);
-        //}
-    }
     void IndexNPC(GameObject npc)
     {
-        Ragdoll npcRigidbody = npc.GetComponent<Ragdoll>();
+        Ragdoll npcRagdoll = FindRagdollParent(npc.transform);
 
-        if (npcRigidbody != null && !npcs.Contains(npcRigidbody))
+        if (npcRagdoll != null && !npcs.Contains(npcRagdoll))
         {
-            npcRigidbody.UnactivateRagdoll();
+            npcRagdoll.UnactivateRagdoll();
 
-            npcRigidbody.transform.parent = backPackTransform;
-            npcs.Add(npcRigidbody);
+            npcRagdoll.transform.parent = backPackTransform;
+            npcs.Add(npcRagdoll);
         }
+    }
+
+    Ragdoll FindRagdollParent(Transform objeto)
+    {
+        Ragdoll ragdoll = objeto.GetComponent<Ragdoll>();
+
+        if (ragdoll != null)
+        {
+            Debug.Log("encontrouuu !!!!");
+            return ragdoll;
+        }
+        else if (objeto.parent != null)
+        {
+            Debug.Log(objeto.name + "Foi pro pai" + objeto.parent.name );
+            return FindRagdollParent(objeto.parent);
+        }
+
+        Debug.Log("nao encontrou nada");
+        return null;
     }
     void UpdatePositionNPCs()
     {
