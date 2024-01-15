@@ -16,7 +16,6 @@ public class PlayerController : MonoBehaviour
     private BackPack backPack;
     private GameObject currentTarget;
     private Rigidbody currentTargetRigidbody;
-    private bool canMove = true;
 
     private void Start()
     {
