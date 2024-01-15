@@ -11,15 +11,22 @@ public class PlayerController : MonoBehaviour
 
     [Space(10), Header("Player Attributes")]
     [SerializeField] private float speed;
+    [SerializeField] private Material playerMaterial;
 
+    private BackPack backPack;
     private GameObject currentTarget;
+    private Rigidbody currentTargetRigidbody;
+    private bool canMove = true;
 
+    private void Start()
+    {
+        backPack = GetComponent<BackPack>();
+    }
     private void FixedUpdate()
     {
         Movement();
     }
-
-    void Movement()
+    private void Movement()
     {
         Vector2 moveDirection = joystickToMove.action.ReadValue<Vector2>();
 
@@ -36,22 +43,39 @@ public class PlayerController : MonoBehaviour
             animator.SetFloat("speed", 0f);
         }
     }
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
             currentTarget = collision.gameObject;
+            currentTargetRigidbody = currentTarget.GetComponent<Rigidbody>();
             animator.SetTrigger("isAttack");
+        }
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            transform.position = transform.position;
         }
     }
     public void AttackEffect()
     {
-        currentTarget.gameObject.GetComponent<Rigidbody>().isKinematic = true;
-        currentTarget.gameObject.GetComponent<Rigidbody>().useGravity = false;
-        currentTarget.gameObject.GetComponent<CapsuleCollider>().enabled = false;
+        if (currentTargetRigidbody != null)
+        {
+            currentTargetRigidbody.isKinematic = true;
+            currentTargetRigidbody.useGravity = false;
+            currentTarget.GetComponent<CapsuleCollider>().enabled = false;
 
-        Vector3 direction = transform.position - currentTarget.transform.position;
-        currentTarget.gameObject.GetComponent<NPC>().TakeHit(direction);
+            Vector3 direction = transform.position - currentTarget.transform.position;
+            currentTarget.GetComponent<NPC>().TakeHit(direction);
+        }
+    }
+    public void LevelUp()
+    {
+        backPack.UpgradeMax(2);
+
+        if (playerMaterial != null)
+        {
+            Color randomColor = new Color(Random.value, Random.value, Random.value);
+            playerMaterial.color = randomColor;
+        }
     }
 }

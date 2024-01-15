@@ -6,17 +6,11 @@ public class Market : MonoBehaviour
 {
     private BackPack playerBackPack;
 
-    private void LateUpdate()
-    {
-        if(playerBackPack != null) 
-        {
-            BuyNPC();
-        }
-    }
     private void OnTriggerStay(Collider other)
     {
         playerBackPack = other.GetComponent<BackPack>();
-        if (playerBackPack != null)
+
+        if (playerBackPack != null && playerBackPack.npcs.Count > 0)
         {
             BuyNPC();
         }
@@ -28,5 +22,6 @@ public class Market : MonoBehaviour
     void BuyNPC()
     {
         playerBackPack.RemoveNPC(this.gameObject);
+        DataManager.Instance.EarnMoney(1);
     }
 }
