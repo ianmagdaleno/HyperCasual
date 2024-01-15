@@ -17,6 +17,10 @@ public class PlayerController : MonoBehaviour
     private GameObject currentTarget;
     private Rigidbody currentTargetRigidbody;
 
+    private void Awake()
+    {
+        Application.targetFrameRate = 60;
+    }
     private void Start()
     {
         backPack = GetComponent<BackPack>();
